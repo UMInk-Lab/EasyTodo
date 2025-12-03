@@ -133,7 +133,8 @@ body{
 .footer{margin-top:12px;display:flex;gap:8px;align-items:center}
 
 /* Modal */
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:40}
+/* Ensure modals overlay fullscreen panels (which use z-index:50+) */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:1000}
 .modal{background:var(--panel);color:var(--fg);border:1px solid var(--border);border-radius:12px;max-width:440px;width:90%;padding:16px;box-shadow:0 12px 34px rgba(0,0,0,.24)}
 .modal-title{margin:0 0 8px 0;font-weight:600}
 .modal-actions{margin-top:12px;display:flex;gap:8px;justify-content:flex-end}
