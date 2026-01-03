@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>{{ title or '登录 / 注册 - EasyTodo' }}</title>
@@ -31,37 +32,38 @@
       })();
     </script>
   </head>
-  <body>
+  <body data-title-key="login.title">
     <div class="auth-card">
       <div class="toolbar" style="margin-bottom:8px">
-        <h2 class="auth-title" style="margin:0">登录 / 注册</h2>
+        <h2 class="auth-title" style="margin:0" data-i18n="login.header">登录 / 注册</h2>
         <div class="spacer"></div>
-        <button id="themeBtn" class="btn icon" title="切换明暗" aria-label="切换明暗"><i class="fa-solid fa-circle-half-stroke"></i></button>
+        <button id="themeBtn" class="btn icon" data-i18n-title="index.theme" data-i18n-aria-label="index.theme" title="切换明暗" aria-label="切换明暗"><i class="fa-solid fa-circle-half-stroke"></i></button>
+        <button id="languageBtn" class="btn icon" data-i18n-title="index.language" data-i18n-aria-label="index.language" title="切换语言" aria-label="切换语言"><iconify-icon icon="material-symbols:language"></iconify-icon></button>
       </div>
-      <p class="note">使用邮箱与至少 8 位密码</p>
+      <p class="note" data-i18n="login.emailPasswordHint">使用邮箱与至少 8 位密码</p>
       <div>
-        <label class="note">邮箱</label>
-        <input id="email" class="auth-input" type="email" placeholder="you@example.com" />
+        <label class="note" data-i18n="login.email">邮箱</label>
+        <input id="email" class="auth-input" type="email" data-i18n-placeholder="login.emailPlaceholder" placeholder="you@example.com" />
       </div>
       <div style="margin-top:8px">
-        <label class="note">密码</label>
-        <input id="password" class="auth-input" type="password" placeholder="至少8位" />
+        <label class="note" data-i18n="login.password">密码</label>
+        <input id="password" class="auth-input" type="password" data-i18n-placeholder="login.passwordPlaceholder" placeholder="至少8位" />
       </div>
       <div class="auth-actions" style="align-items:center">
-        <button id="login" class="btn primary">登录</button>
+        <button id="login" class="btn primary" data-i18n="login.login">登录</button>
         {% if registration_open %}
-        <button id="register" class="btn">注册</button>
+        <button id="register" class="btn" data-i18n="login.register">注册</button>
         {% else %}
         <span class="reg-disabled-wrap" style="position:relative; display:inline-block">
-          <button id="register" class="btn" disabled title="已关闭注册">注册</button>
+          <button id="register" class="btn" disabled data-i18n-title="login.registrationClosed" data-i18n="login.register" title="已关闭注册">注册</button>
           <!-- Overlay to capture clicks and show message when registration is closed -->
-          <button id="registerOverlay" class="btn" aria-disabled="true" title="站点已关闭注册"
+          <button id="registerOverlay" class="btn" aria-disabled="true" data-i18n-title="login.registrationClosedTitle" title="站点已关闭注册"
                   style="position:absolute; inset:0; background:transparent; border:none; padding:0; margin:0; opacity:0; cursor:not-allowed"></button>
         </span>
         {% endif %}
         <div class="spacer"></div>
         {% if smtp_enabled %}
-        <a id="forgotLink" href="#" class="note" style="display:inline-flex;align-items:center;height:var(--control-h);text-decoration:none">忘记密码？</a>
+        <a id="forgotLink" href="#" class="note" style="display:inline-flex;align-items:center;height:var(--control-h);text-decoration:none" data-i18n="login.forgotPassword">忘记密码？</a>
         {% endif %}
       </div>
       <p class="note" id="msg"></p>
@@ -72,34 +74,34 @@
     <div id="fpModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
       <div class="modal">
         <div class="toolbar" style="margin-bottom:8px">
-          <h4 class="modal-title" id="fpTitle" style="margin:0">找回密码</h4>
+          <h4 class="modal-title" id="fpTitle" style="margin:0" data-i18n="login.forgotPasswordTitle">找回密码</h4>
           <div class="spacer"></div>
-          <button id="fpCloseBtn" class="btn icon" title="关闭" aria-label="关闭"><i class="fa-solid fa-xmark"></i></button>
+          <button id="fpCloseBtn" class="btn icon" data-i18n-title="common.close" data-i18n-aria-label="common.close" title="关闭" aria-label="关闭"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div id="fpStep1">
-          <p class="note">输入注册邮箱，系统将为你重置密码并发送到邮箱。</p>
-          <input id="fpEmail" type="email" placeholder="you@example.com" />
+          <p class="note" data-i18n="login.forgotPasswordHint">输入注册邮箱，系统将为你重置密码并发送到邮箱。</p>
+          <input id="fpEmail" type="email" data-i18n-placeholder="login.emailPlaceholder" placeholder="you@example.com" />
           <div class="modal-actions">
-            <button id="fpCancel1" class="btn">取消</button>
-            <button id="fpNext" class="btn primary">下一步</button>
+            <button id="fpCancel1" class="btn" data-i18n="common.cancel">取消</button>
+            <button id="fpNext" class="btn primary" data-i18n="common.next">下一步</button>
           </div>
         </div>
         <div id="fpStep2" style="display:none">
-          <p class="note">请解答以确认重置：</p>
+          <p class="note" data-i18n="login.resetChallenge">请解答以确认重置：</p>
           <div id="fpChallenge" class="note" style="font-weight:bold; margin-bottom:8px"></div>
-          <input id="fpAnswer" type="text" placeholder="结果" />
+          <input id="fpAnswer" type="text" data-i18n-placeholder="login.result" placeholder="结果" />
           {% if turnstile_enabled and turnstile_site_key %}
           <div style="margin:8px 0">
             <div id="tsWidget" class="cf-turnstile" data-sitekey="{{ turnstile_site_key }}" data-callback="onTsSuccess"></div>
           </div>
           {% endif %}
           <div class="modal-actions">
-            <button id="fpBack" class="btn">返回</button>
-            <button id="fpConfirm" class="btn danger" disabled>确认重置</button>
+            <button id="fpBack" class="btn" data-i18n="common.back">返回</button>
+            <button id="fpConfirm" class="btn danger" disabled data-i18n="login.confirmReset">确认重置</button>
           </div>
         </div>
         <div id="fpStep3" style="display:none">
-          <p class="note">新密码已发送至你的邮箱，请注意查收（收件箱/垃圾箱）。</p>
+          <p class="note" data-i18n="login.resetSuccess">新密码已发送至你的邮箱，请注意查收（收件箱/垃圾箱）。</p>
         </div>
         <div id="fpMsg" class="note"></div>
       </div>
@@ -126,16 +128,16 @@
       }
       function mapError(code, isLogin){
         const dict = {
-          invalid_credentials: '邮箱或密码错误',
-          invalid_email: '邮箱格式不正确',
-          weak_password: '密码至少 8 位',
-          email_taken: '该邮箱已被注册',
-          unauthorized: '未登录',
-          registration_closed: '站点已关闭注册',
+          invalid_credentials: window.i18n.t('login.errorInvalidCredentials'),
+          invalid_email: window.i18n.t('login.errorInvalidEmail'),
+          weak_password: window.i18n.t('login.errorWeakPassword'),
+          email_taken: window.i18n.t('login.errorEmailTaken'),
+          unauthorized: window.i18n.t('login.errorUnauthorized'),
+          registration_closed: window.i18n.t('login.errorRegistrationClosed'),
         };
         if(dict[code]) return dict[code];
-        if(isLogin) return '登录失败，请稍后重试';
-        return '注册失败，请稍后重试';
+        if(isLogin) return window.i18n.t('login.errorLoginFailed');
+        return window.i18n.t('login.errorRegisterFailed');
       }
       document.getElementById('login').onclick = async () =>{
         const email = document.getElementById('email').value.trim();
@@ -144,7 +146,7 @@
           await post('/api/auth/login', { email, password });
           try{ localStorage.removeItem('loggedOut'); }catch{}
           location.href = '/';
-        }catch(e){ msg.textContent = '登录失败：'+e.message }
+        }catch(e){ msg.textContent = window.i18n.t('login.loginFailedPrefix')+e.message }
       }
       const regBtn = document.getElementById('register');
       if(regBtn && !regBtn.disabled){
@@ -155,7 +157,7 @@
             await post('/api/auth/register', { email, password });
             try{ localStorage.removeItem('loggedOut'); }catch{}
             location.href = '/';
-          }catch(e){ msg.textContent = '注册失败：'+e.message }
+          }catch(e){ msg.textContent = window.i18n.t('login.registerFailedPrefix')+e.message }
         };
       }
       // When registration is closed, show a clear message on click
@@ -163,7 +165,7 @@
       if(regOverlay){
         regOverlay.addEventListener('click', (e)=>{
           e.preventDefault();
-          msg.textContent = '站点已关闭注册';
+          msg.textContent = window.i18n.t('login.errorRegistrationClosed');
         });
       }
       const fl = document.getElementById('forgotLink');
@@ -223,13 +225,16 @@
         fpNext.addEventListener('click', async ()=>{
           fpMsg.textContent = '';
           const emailVal = (fpEmail.value||'').trim().toLowerCase();
-          if(!emailVal || !emailVal.includes('@')){ fpMsg.textContent='请输入有效邮箱'; return }
+          if(!emailVal || !emailVal.includes('@')){ fpMsg.textContent=window.i18n.t('login.enterValidEmail'); return }
           fpNext.disabled = true;
           try{
             const r = await fetch('/api/auth/forgot/start', { method:'POST', headers:{'Content-Type':'application/json'}, credentials:'include', body: JSON.stringify({ email: emailVal }) });
             const j = await r.json().catch(()=>({}));
             if(!r.ok){
-              const map = { invalid_email: '邮箱格式不正确', not_found: '该邮箱未注册' };
+              const map = { 
+                invalid_email: window.i18n.t('login.errorInvalidEmail'), 
+                not_found: window.i18n.t('login.errorNotFound')
+              };
               throw new Error(map[j.error] || (j.error || ('HTTP '+r.status)));
             }
             fpChallenge.textContent = j.challenge || '';
@@ -239,11 +244,9 @@
             updateConfirmState();
             // Ensure Turnstile widget refreshes to issue a fresh token
             try{ if(window.turnstile){ window.turnstile.reset(); } }catch(_){ }
-          }catch(e){ fpMsg.textContent = '请求失败：' + (e && e.message? e.message : '未知错误'); }
+          }catch(e){ fpMsg.textContent = window.i18n.t('login.requestFailed') + (e && e.message? e.message : window.i18n.t('login.unknownError')); }
           finally{ fpNext.disabled = false; }
         });
-      }
-      if(fpConfirm){
         fpConfirm.addEventListener('click', async ()=>{
           try{
             fpMsg.textContent = '';
@@ -251,23 +254,30 @@
             const ansEl = document.getElementById('fpAnswer');
             const answer = ((ansEl && ansEl.value) || '').trim();
             const needsTs = !!({{ 'true' if (turnstile_enabled and turnstile_site_key) else 'false' }});
-            if(needsTs && !tsToken){ fpMsg.textContent = '请先完成验证码'; return }
-            if(!answer){ fpMsg.textContent = '请输入答案'; return }
+            if(needsTs && !tsToken){ fpMsg.textContent = window.i18n.t('login.completeChallenge'); return }
+            if(!answer){ fpMsg.textContent = window.i18n.t('login.enterAnswer'); return }
             fpConfirm.disabled = true;
             const r = await fetch('/api/auth/forgot/confirm', { method:'POST', headers:{'Content-Type':'application/json'}, credentials:'include', body: JSON.stringify({ email: emailVal, answer, turnstile_token: tsToken||'' }) });
             const j = await r.json().catch(()=>({}));
             if(!r.ok){
-              const map = { bad_challenge: '验证失败，请返回重试', turnstile_failed:'验证码验证失败', smtp_invalid:'管理员未正确配置邮箱服务', smtp_auth_failed:'邮件服务器认证失败', smtp_send_failed:'发送邮件失败', not_found:'邮箱未注册' };
+              const map = { 
+                bad_challenge: window.i18n.t('login.errorBadChallenge'),
+                turnstile_failed: window.i18n.t('login.errorTurnstileFailed'),
+                smtp_invalid: window.i18n.t('login.errorSmtpInvalid'),
+                smtp_auth_failed: window.i18n.t('login.errorSmtpAuthFailed'),
+                smtp_send_failed: window.i18n.t('login.errorSmtpSendFailed'),
+                not_found: window.i18n.t('login.errorNotFound')
+              };
               let base = map[j.error] || (j.error || ('HTTP '+r.status));
               if(j.error === 'turnstile_failed' && j.detail){ base += `（${j.detail}）`; }
               throw new Error(base);
             }
             // Success: show success page in modal; do not auto close
-            if(fpTitle) fpTitle.textContent = '重置成功';
+            if(fpTitle) fpTitle.textContent = window.i18n.t('login.forgotPasswordTitle');
             showStep(3);
             fpMsg.textContent = '';
           }catch(e){
-            fpMsg.textContent = '重置失败：' + (e && e.message? e.message : '未知错误');
+            fpMsg.textContent = window.i18n.t('login.resetFailedPrefix') + (e && e.message? e.message : window.i18n.t('login.unknownError'));
             // Reset token on failure to encourage a fresh solve
             tsToken = '';
             try{ if(window.turnstile){ window.turnstile.reset(); } }catch(_){ }
@@ -282,8 +292,31 @@
     {% if turnstile_enabled and turnstile_site_key %}
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     {% endif %}
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="/static/js/locales/zh-CN.js"></script>
+    <script src="/static/js/locales/en.js"></script>
+    <script src="/static/js/locales/ja.js"></script>
+    <script src="/static/js/i18n.js"></script>
     <script src="/static/js/theme.js"></script>
     <script src="/static/js/pwa.js"></script>
+    <script>
+      // Initialize language button after i18n is loaded
+      (function initLanguage() {
+        function init() {
+          if (window.i18n && window.i18n.initLanguageButton) {
+            window.i18n.initLanguageButton();
+          } else {
+            // Retry if i18n not ready yet
+            setTimeout(init, 50);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
+        }
+      })();
+    </script>
     <footer class="site-footer">
       Powered by <a href="https://github.com/umink-lab/easytodo" target="_blank" rel="noopener noreferrer">EasyTodo</a> · Copyright <a href="https://github.com/essesoul" target="_blank" rel="noopener noreferrer">Essesoul</a>
     </footer>

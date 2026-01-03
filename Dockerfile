@@ -19,6 +19,9 @@ RUN pip install -r requirements.txt gunicorn==21.2.0
 # Copy application source
 COPY backend/ /app/
 
+# Create locales directory for mounting custom translations
+RUN mkdir -p /app/static/js/locales
+
 # Default runtime env
 ENV PORT=5000 \
     SESSION_COOKIE_SECURE=false

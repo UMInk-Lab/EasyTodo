@@ -70,26 +70,19 @@ def create_app():
 
     @app.after_request
     def set_security_headers(resp):
-        # Basic hardening; allow required third-party origins used in app
-        csp_parts = [
-            "default-src 'self'",
-            # Allow self + data URLs + Cloudflare Insights pixel if used
-            "img-src 'self' data: https://cloudflareinsights.com",
-            "font-src 'self' https://cdnjs.cloudflare.com data:",
-            "style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'",
-            # Allow Cloudflare Turnstile + Cloudflare Insights beacon
-            "script-src 'self' https://cdnjs.cloudflare.com https://challenges.cloudflare.com https://static.cloudflareinsights.com 'unsafe-inline'",
-            # Permit outgoing analytics beacons
-            "connect-src 'self' https://cloudflareinsights.com",
-            "frame-src 'self' https://challenges.cloudflare.com",
-            "object-src 'none'",
-            "base-uri 'self'",
-            "frame-ancestors 'none'",
-        ]
-        resp.headers.setdefault('Content-Security-Policy', '; '.join(csp_parts))
+        # Content Security Policy intentionally disabled per requirement to allow all origins
+        if 'Content-Security-Policy' in resp.headers:
+            del resp.headers['Content-Security-Policy']
         resp.headers.setdefault('X-Content-Type-Options', 'nosniff')
         resp.headers.setdefault('X-Frame-Options', 'DENY')
         resp.headers.setdefault('Referrer-Policy', 'no-referrer')
+        
+        # Ensure UTF-8 charset for text-based responses
+        mimetype = resp.mimetype or ''
+        if mimetype.startswith('text/') or mimetype in ('application/javascript', 'application/json'):
+            if 'charset' not in resp.headers.get('Content-Type', ''):
+                resp.headers['Content-Type'] = f"{mimetype}; charset=utf-8"
+        
         # Cache policy: avoid caching dynamic pages and all API responses
         try:
             is_api = request.path.startswith('/api/')
@@ -101,7 +94,6 @@ def create_app():
         if is_api or (is_html and not is_static):
             resp.headers['Cache-Control'] = 'no-store'
             resp.headers['Pragma'] = 'no-cache'
-        return resp
         return resp
 
     @app.route('/api/health')

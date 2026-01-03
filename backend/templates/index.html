@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>{{ title or 'EasyTodo 待办' }}</title>
@@ -32,22 +33,23 @@
       })();
     </script>
   </head>
-  <body>
+  <body data-title-key="index.title">
     <div class="container">
       <div class="toolbar">
-        <button id="delDoneBtn" class="btn icon trash" title="清除已完成" aria-label="清除已完成"><i class="fa-solid fa-trash"></i></button>
-        <button id="syncBtn" class="btn icon" title="同步" aria-label="同步"><i class="fa-solid fa-rotate"></i></button>
-        <button id="themeBtn" class="btn icon" title="切换明暗" aria-label="切换明暗"><i class="fa-solid fa-circle-half-stroke"></i></button>
+        <button id="delDoneBtn" class="btn icon trash" data-i18n-title="index.clearCompleted" data-i18n-aria-label="index.clearCompleted" title="清除已完成" aria-label="清除已完成"><i class="fa-solid fa-trash"></i></button>
+        <button id="syncBtn" class="btn icon" data-i18n-title="index.sync" data-i18n-aria-label="index.sync" title="同步" aria-label="同步"><i class="fa-solid fa-rotate"></i></button>
+        <button id="themeBtn" class="btn icon" data-i18n-title="index.theme" data-i18n-aria-label="index.theme" title="切换明暗" aria-label="切换明暗"><i class="fa-solid fa-circle-half-stroke"></i></button>
+        <button id="languageBtn" class="btn icon" data-i18n-title="index.language" data-i18n-aria-label="index.language" title="切换语言" aria-label="切换语言"><iconify-icon icon="material-symbols:language"></iconify-icon></button>
         <div class="spacer"></div>
-        <button id="settingsBtn" class="btn icon" title="设置" aria-label="设置"><i class="fa-solid fa-gear"></i></button>
-        <button id="logoutBtn" class="btn icon" title="退出登录" aria-label="退出登录"><i class="fa-solid fa-right-from-bracket"></i></button>
+        <button id="settingsBtn" class="btn icon" data-i18n-title="index.settings" data-i18n-aria-label="index.settings" title="设置" aria-label="设置"><i class="fa-solid fa-gear"></i></button>
+        <button id="logoutBtn" class="btn icon" data-i18n-title="index.logout" data-i18n-aria-label="index.logout" title="退出登录" aria-label="退出登录"><i class="fa-solid fa-right-from-bracket"></i></button>
       </div>
       <div class="toolbar">
-        <input id="newTodo" class="input" type="text" placeholder="输入待办，回车添加" />
-        <button id="addBtn" class="btn primary icon" title="添加" aria-label="添加"><i class="fa-solid fa-plus"></i></button>
+        <input id="newTodo" class="input" type="text" data-i18n-placeholder="index.addTodoPlaceholder" placeholder="输入待办，回车添加" />
+        <button id="addBtn" class="btn primary icon" data-i18n-title="index.add" data-i18n-aria-label="index.add" title="添加" aria-label="添加"><i class="fa-solid fa-plus"></i></button>
       </div>
 
-      <div id="list" class="list" aria-label="待办列表"></div>
+      <div id="list" class="list" data-i18n-aria-label="index.todoList" aria-label="待办列表"></div>
 
       <div class="footer">
         <span class="note" id="status"></span>
@@ -87,7 +89,7 @@
           row.innerHTML = `
             <input type="checkbox" class="checkbox" ${t.completed? 'checked':''} />
             <div class="text ${t.completed? 'completed':''}">${escapeHtml(t.text)}</div>
-            <div class="handle" title="拖动排序">≡</div>
+            <div class="handle" data-i18n-title="index.dragToReorder" title="${window.i18n.t('index.dragToReorder')}">≡</div>
           `;
           const cb = row.querySelector('.checkbox');
           cb.addEventListener('change', ()=>{
@@ -104,7 +106,7 @@
             input.type = 'text';
             input.className = 'edit-inline';
             input.value = t.text || '';
-            input.setAttribute('aria-label','编辑待办');
+            input.setAttribute('aria-label', window.i18n.t('index.editTodo'));
             // prevent drag while editing
             row.draggable = false;
             const wasCompleted = textEl.classList.contains('completed');
@@ -204,7 +206,7 @@
         // Hide settings/logout/sync
         const toHide = ['settingsBtn','logoutBtn','syncBtn'];
         toHide.forEach(id=>{ const el = document.getElementById(id); if(el) el.style.display='none'; });
-        statusEl.textContent = '离线模式（未登录）';
+        statusEl.textContent = window.i18n.t('index.offlineUnauthenticated');
       }
 
       async function syncFromServer(){
@@ -321,10 +323,10 @@
       clearModal.setAttribute('aria-hidden','true');
       clearModal.innerHTML = `
         <div class="modal">
-          <h4 class="modal-title">确认清除已完成？</h4>
+          <h4 class="modal-title" data-i18n="index.clearConfirmTitle">确认清除已完成？</h4>
           <div class="modal-actions">
-            <button id="clearCancel" class="btn">取消</button>
-            <button id="clearConfirm" class="btn danger">清除</button>
+            <button id="clearCancel" class="btn" data-i18n="common.cancel">取消</button>
+            <button id="clearConfirm" class="btn danger" data-i18n="index.clear">清除</button>
           </div>
         </div>`;
       document.body.appendChild(clearModal);
@@ -359,7 +361,7 @@
       document.getElementById('syncBtn').onclick = async ()=>{
         const nowOnline = isOnline();
         if(!nowOnline){
-          statusEl.textContent = '已离线，请联网后重试';
+          statusEl.textContent = window.i18n.t('index.alreadyOffline');
           setTimeout(()=> statusEl.textContent='', 1800);
           return;
         }
@@ -375,11 +377,11 @@
         if(shouldRefreshCache && navigator.serviceWorker && navigator.serviceWorker.controller){
           try{ navigator.serviceWorker.controller.postMessage({ type:'REFRESH_PAGE_CACHE' }); }catch{}
         }
-        statusEl.textContent = '同步中…';
+        statusEl.textContent = window.i18n.t('index.syncing');
         // First flush pending local changes, then pull from server
         const flushed = await flushPending();
         const ok = await syncFromServer();
-        statusEl.textContent = (flushed && ok) ? '已同步' : '同步失败（网络异常或未登录）';
+        statusEl.textContent = (flushed && ok) ? window.i18n.t('index.synced') : window.i18n.t('index.syncFailed');
         setTimeout(()=> statusEl.textContent='', 1200);
       };
       document.getElementById('settingsBtn').onclick = ()=>{ location.href = '/settings' };
@@ -436,14 +438,14 @@
               return;
             }
           }catch{}
-          statusEl.textContent = '网络已连接，正在同步…';
+          statusEl.textContent = window.i18n.t('index.networkConnected');
           const flushed = await flushPending();
           const ok = await syncFromServer();
-          statusEl.textContent = (flushed && ok) ? '已同步' : '同步失败（网络异常或未登录）';
+          statusEl.textContent = (flushed && ok) ? window.i18n.t('index.synced') : window.i18n.t('index.syncFailed');
           setTimeout(()=> statusEl.textContent='', 1200);
         });
         window.addEventListener('offline', ()=>{
-          statusEl.textContent = unauthenticated ? '离线模式（未登录）' : '已离线';
+          statusEl.textContent = unauthenticated ? window.i18n.t('index.offlineUnauthenticated') : window.i18n.t('index.offline');
           setTimeout(()=> statusEl.textContent='', 1200);
         });
       })();
@@ -461,8 +463,31 @@
       }
       .edit-inline:focus{ outline:none; border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in oklab, var(--accent) 20%, transparent); }
     </style>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="/static/js/locales/zh-CN.js"></script>
+    <script src="/static/js/locales/en.js"></script>
+    <script src="/static/js/locales/ja.js"></script>
+    <script src="/static/js/i18n.js"></script>
     <script src="/static/js/theme.js"></script>
     <script src="/static/js/pwa.js"></script>
+    <script>
+      // Initialize language button after i18n is loaded
+      (function initLanguage() {
+        function init() {
+          if (window.i18n && window.i18n.initLanguageButton) {
+            window.i18n.initLanguageButton();
+          } else {
+            // Retry if i18n not ready yet
+            setTimeout(init, 50);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
+        }
+      })();
+    </script>
     <footer class="site-footer">
       Powered by <a href="https://github.com/umink-lab/easytodo" target="_blank" rel="noopener noreferrer">EasyTodo</a> · Copyright <a href="https://github.com/essesoul" target="_blank" rel="noopener noreferrer">Essesoul</a>
     </footer>

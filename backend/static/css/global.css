@@ -101,6 +101,7 @@ body{
 .btn.icon i{font-size:14px; line-height:1;}
 .btn.icon .icon-svg{width:16px;height:16px;display:block}
 .btn.icon svg{width:16px;height:16px;display:block}
+.btn.icon iconify-icon{width:16px;height:16px;font-size:16px;line-height:1;}
 
 /* Subtle red emphasis for clear-completed */
 .btn.trash{ color:#b74646; border-color:#e6bcbc; }
@@ -148,6 +149,7 @@ body{
 /* Site footer */
 .site-footer{
   margin:24px auto 16px;
+  margin-bottom:48px;
   text-align:center;
   color:var(--muted);
   font-size:12px;
@@ -178,3 +180,35 @@ body{
 
 /* Align TLS label text padding with inputs */
 .tls-label{ padding: 0 12px; }
+
+/* Language dropdown menu */
+.language-dropdown {
+  position: absolute;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 9999;
+  min-width: 120px;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .language-dropdown {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.language-item {
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+  user-select: none;
+}
+
+.language-item:hover {
+  background: var(--panel-2);
+}
+
+.language-item.active {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
