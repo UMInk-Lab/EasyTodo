@@ -78,6 +78,10 @@
       }
       function saveLocal(){ localStorage.setItem('todos', JSON.stringify(todos)); }
 
+      function tr(key){
+        return (window.i18n && typeof window.i18n.t === 'function') ? window.i18n.t(key) : key;
+      }
+
       function render(){
         listEl.innerHTML = '';
         todos.sort((a,b)=>a.position-b.position);
@@ -89,7 +93,7 @@
           row.innerHTML = `
             <input type="checkbox" class="checkbox" ${t.completed? 'checked':''} />
             <div class="text ${t.completed? 'completed':''}">${escapeHtml(t.text)}</div>
-            <div class="handle" data-i18n-title="index.dragToReorder" title="${window.i18n.t('index.dragToReorder')}">≡</div>
+            <div class="handle" data-i18n-title="index.dragToReorder" title="${tr('index.dragToReorder')}">≡</div>
           `;
           const cb = row.querySelector('.checkbox');
           cb.addEventListener('change', ()=>{
@@ -106,7 +110,7 @@
             input.type = 'text';
             input.className = 'edit-inline';
             input.value = t.text || '';
-            input.setAttribute('aria-label', window.i18n.t('index.editTodo'));
+            input.setAttribute('aria-label', tr('index.editTodo'));
             // prevent drag while editing
             row.draggable = false;
             const wasCompleted = textEl.classList.contains('completed');
@@ -206,7 +210,7 @@
         // Hide settings/logout/sync
         const toHide = ['settingsBtn','logoutBtn','syncBtn'];
         toHide.forEach(id=>{ const el = document.getElementById(id); if(el) el.style.display='none'; });
-        statusEl.textContent = window.i18n.t('index.offlineUnauthenticated');
+        statusEl.textContent = tr('index.offlineUnauthenticated');
       }
 
       async function syncFromServer(){
@@ -361,7 +365,7 @@
       document.getElementById('syncBtn').onclick = async ()=>{
         const nowOnline = isOnline();
         if(!nowOnline){
-          statusEl.textContent = window.i18n.t('index.alreadyOffline');
+          statusEl.textContent = tr('index.alreadyOffline');
           setTimeout(()=> statusEl.textContent='', 1800);
           return;
         }
@@ -377,11 +381,11 @@
         if(shouldRefreshCache && navigator.serviceWorker && navigator.serviceWorker.controller){
           try{ navigator.serviceWorker.controller.postMessage({ type:'REFRESH_PAGE_CACHE' }); }catch{}
         }
-        statusEl.textContent = window.i18n.t('index.syncing');
+        statusEl.textContent = tr('index.syncing');
         // First flush pending local changes, then pull from server
         const flushed = await flushPending();
         const ok = await syncFromServer();
-        statusEl.textContent = (flushed && ok) ? window.i18n.t('index.synced') : window.i18n.t('index.syncFailed');
+        statusEl.textContent = (flushed && ok) ? tr('index.synced') : tr('index.syncFailed');
         setTimeout(()=> statusEl.textContent='', 1200);
       };
       document.getElementById('settingsBtn').onclick = ()=>{ location.href = '/settings' };
@@ -438,14 +442,14 @@
               return;
             }
           }catch{}
-          statusEl.textContent = window.i18n.t('index.networkConnected');
+          statusEl.textContent = tr('index.networkConnected');
           const flushed = await flushPending();
           const ok = await syncFromServer();
-          statusEl.textContent = (flushed && ok) ? window.i18n.t('index.synced') : window.i18n.t('index.syncFailed');
+          statusEl.textContent = (flushed && ok) ? tr('index.synced') : tr('index.syncFailed');
           setTimeout(()=> statusEl.textContent='', 1200);
         });
         window.addEventListener('offline', ()=>{
-          statusEl.textContent = unauthenticated ? window.i18n.t('index.offlineUnauthenticated') : window.i18n.t('index.offline');
+          statusEl.textContent = unauthenticated ? tr('index.offlineUnauthenticated') : tr('index.offline');
           setTimeout(()=> statusEl.textContent='', 1200);
         });
       })();

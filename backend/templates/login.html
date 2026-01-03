@@ -110,6 +110,9 @@
 
     <script>
       const msg = document.getElementById('msg');
+      function tr(key){
+        return (window.i18n && typeof window.i18n.t === 'function') ? window.i18n.t(key) : key;
+      }
       async function post(path, body){
         msg.textContent='';
         const r = await fetch(path, {
@@ -128,16 +131,16 @@
       }
       function mapError(code, isLogin){
         const dict = {
-          invalid_credentials: window.i18n.t('login.errorInvalidCredentials'),
-          invalid_email: window.i18n.t('login.errorInvalidEmail'),
-          weak_password: window.i18n.t('login.errorWeakPassword'),
-          email_taken: window.i18n.t('login.errorEmailTaken'),
-          unauthorized: window.i18n.t('login.errorUnauthorized'),
-          registration_closed: window.i18n.t('login.errorRegistrationClosed'),
+          invalid_credentials: tr('login.errorInvalidCredentials'),
+          invalid_email: tr('login.errorInvalidEmail'),
+          weak_password: tr('login.errorWeakPassword'),
+          email_taken: tr('login.errorEmailTaken'),
+          unauthorized: tr('login.errorUnauthorized'),
+          registration_closed: tr('login.errorRegistrationClosed'),
         };
         if(dict[code]) return dict[code];
-        if(isLogin) return window.i18n.t('login.errorLoginFailed');
-        return window.i18n.t('login.errorRegisterFailed');
+        if(isLogin) return tr('login.errorLoginFailed');
+        return tr('login.errorRegisterFailed');
       }
       document.getElementById('login').onclick = async () =>{
         const email = document.getElementById('email').value.trim();
@@ -146,7 +149,7 @@
           await post('/api/auth/login', { email, password });
           try{ localStorage.removeItem('loggedOut'); }catch{}
           location.href = '/';
-        }catch(e){ msg.textContent = window.i18n.t('login.loginFailedPrefix')+e.message }
+        }catch(e){ msg.textContent = tr('login.loginFailedPrefix')+e.message }
       }
       const regBtn = document.getElementById('register');
       if(regBtn && !regBtn.disabled){
@@ -157,7 +160,7 @@
             await post('/api/auth/register', { email, password });
             try{ localStorage.removeItem('loggedOut'); }catch{}
             location.href = '/';
-          }catch(e){ msg.textContent = window.i18n.t('login.registerFailedPrefix')+e.message }
+          }catch(e){ msg.textContent = tr('login.registerFailedPrefix')+e.message }
         };
       }
       // When registration is closed, show a clear message on click
@@ -165,7 +168,7 @@
       if(regOverlay){
         regOverlay.addEventListener('click', (e)=>{
           e.preventDefault();
-          msg.textContent = window.i18n.t('login.errorRegistrationClosed');
+            msg.textContent = tr('login.errorRegistrationClosed');
         });
       }
       const fl = document.getElementById('forgotLink');
@@ -225,15 +228,15 @@
         fpNext.addEventListener('click', async ()=>{
           fpMsg.textContent = '';
           const emailVal = (fpEmail.value||'').trim().toLowerCase();
-          if(!emailVal || !emailVal.includes('@')){ fpMsg.textContent=window.i18n.t('login.enterValidEmail'); return }
+          if(!emailVal || !emailVal.includes('@')){ fpMsg.textContent=tr('login.enterValidEmail'); return }
           fpNext.disabled = true;
           try{
             const r = await fetch('/api/auth/forgot/start', { method:'POST', headers:{'Content-Type':'application/json'}, credentials:'include', body: JSON.stringify({ email: emailVal }) });
             const j = await r.json().catch(()=>({}));
             if(!r.ok){
               const map = { 
-                invalid_email: window.i18n.t('login.errorInvalidEmail'), 
-                not_found: window.i18n.t('login.errorNotFound')
+                invalid_email: tr('login.errorInvalidEmail'), 
+                not_found: tr('login.errorNotFound')
               };
               throw new Error(map[j.error] || (j.error || ('HTTP '+r.status)));
             }
@@ -244,7 +247,7 @@
             updateConfirmState();
             // Ensure Turnstile widget refreshes to issue a fresh token
             try{ if(window.turnstile){ window.turnstile.reset(); } }catch(_){ }
-          }catch(e){ fpMsg.textContent = window.i18n.t('login.requestFailed') + (e && e.message? e.message : window.i18n.t('login.unknownError')); }
+          }catch(e){ fpMsg.textContent = tr('login.requestFailed') + (e && e.message? e.message : tr('login.unknownError')); }
           finally{ fpNext.disabled = false; }
         });
         fpConfirm.addEventListener('click', async ()=>{
@@ -254,30 +257,30 @@
             const ansEl = document.getElementById('fpAnswer');
             const answer = ((ansEl && ansEl.value) || '').trim();
             const needsTs = !!({{ 'true' if (turnstile_enabled and turnstile_site_key) else 'false' }});
-            if(needsTs && !tsToken){ fpMsg.textContent = window.i18n.t('login.completeChallenge'); return }
-            if(!answer){ fpMsg.textContent = window.i18n.t('login.enterAnswer'); return }
+            if(needsTs && !tsToken){ fpMsg.textContent = tr('login.completeChallenge'); return }
+            if(!answer){ fpMsg.textContent = tr('login.enterAnswer'); return }
             fpConfirm.disabled = true;
             const r = await fetch('/api/auth/forgot/confirm', { method:'POST', headers:{'Content-Type':'application/json'}, credentials:'include', body: JSON.stringify({ email: emailVal, answer, turnstile_token: tsToken||'' }) });
             const j = await r.json().catch(()=>({}));
             if(!r.ok){
               const map = { 
-                bad_challenge: window.i18n.t('login.errorBadChallenge'),
-                turnstile_failed: window.i18n.t('login.errorTurnstileFailed'),
-                smtp_invalid: window.i18n.t('login.errorSmtpInvalid'),
-                smtp_auth_failed: window.i18n.t('login.errorSmtpAuthFailed'),
-                smtp_send_failed: window.i18n.t('login.errorSmtpSendFailed'),
-                not_found: window.i18n.t('login.errorNotFound')
+                bad_challenge: tr('login.errorBadChallenge'),
+                turnstile_failed: tr('login.errorTurnstileFailed'),
+                smtp_invalid: tr('login.errorSmtpInvalid'),
+                smtp_auth_failed: tr('login.errorSmtpAuthFailed'),
+                smtp_send_failed: tr('login.errorSmtpSendFailed'),
+                not_found: tr('login.errorNotFound')
               };
               let base = map[j.error] || (j.error || ('HTTP '+r.status));
               if(j.error === 'turnstile_failed' && j.detail){ base += `（${j.detail}）`; }
               throw new Error(base);
             }
             // Success: show success page in modal; do not auto close
-            if(fpTitle) fpTitle.textContent = window.i18n.t('login.forgotPasswordTitle');
+            if(fpTitle) fpTitle.textContent = tr('login.forgotPasswordTitle');
             showStep(3);
             fpMsg.textContent = '';
           }catch(e){
-            fpMsg.textContent = window.i18n.t('login.resetFailedPrefix') + (e && e.message? e.message : window.i18n.t('login.unknownError'));
+            fpMsg.textContent = tr('login.resetFailedPrefix') + (e && e.message? e.message : tr('login.unknownError'));
             // Reset token on failure to encourage a fresh solve
             tsToken = '';
             try{ if(window.turnstile){ window.turnstile.reset(); } }catch(_){ }

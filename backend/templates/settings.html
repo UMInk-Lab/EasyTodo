@@ -272,6 +272,9 @@
       const modal = document.getElementById('confirmModal');
       const pwdMsg = document.getElementById('pwdMsg');
       const delMsg = document.getElementById('delMsg');
+      function tr(key){
+        return (window.i18n && typeof window.i18n.t === 'function') ? window.i18n.t(key) : key;
+      }
 
       document.getElementById('backBtn').onclick = ()=>{ location.href='/' };
       document.getElementById('logoutBtn').onclick = async ()=>{
@@ -292,7 +295,7 @@
         const current = document.getElementById('current').value;
         const nu = document.getElementById('new').value;
         const cf = document.getElementById('confirm').value;
-        if(nu !== cf){ pwdMsg.textContent = window.i18n.t('settings.passwordMismatch'); return }
+        if(nu !== cf){ pwdMsg.textContent = tr('settings.passwordMismatch'); return }
         try{
           const r = await fetch('/api/auth/change_password', {
             method:'POST', credentials:'include',
@@ -300,11 +303,11 @@
             body: JSON.stringify({ current, new: nu })
           });
           if(!r.ok){ const j = await r.json().catch(()=>({})); throw new Error(j.error||('HTTP '+r.status)) }
-          pwdMsg.textContent = window.i18n.t('settings.passwordUpdated');
+          pwdMsg.textContent = tr('settings.passwordUpdated');
           document.getElementById('current').value = '';
           document.getElementById('new').value = '';
           document.getElementById('confirm').value = '';
-        }catch(e){ pwdMsg.textContent = window.i18n.t('settings.updateFailed')+e.message }
+        }catch(e){ pwdMsg.textContent = tr('settings.updateFailed')+e.message }
       };
 
       {% if not is_admin %}
@@ -322,12 +325,12 @@
       document.getElementById('confirmDelete').onclick = async ()=>{
         delMsg.textContent = '';
         const typed = document.getElementById('confirmEmail').value.trim();
-        if(typed !== email){ delMsg.textContent = window.i18n.t('settings.emailMismatch'); return }
+        if(typed !== email){ delMsg.textContent = tr('settings.emailMismatch'); return }
         try{
           await fetch('/api/auth/delete_account', { method:'DELETE', credentials:'include', headers: { 'X-CSRF-Token': csrf } });
           localStorage.removeItem('todos');
           location.href = '/login';
-        }catch(e){ delMsg.textContent = window.i18n.t('settings.deleteFailed'); }
+        }catch(e){ delMsg.textContent = tr('settings.deleteFailed'); }
       };
       {% endif %}
 
