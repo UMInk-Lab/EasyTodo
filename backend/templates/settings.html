@@ -64,40 +64,40 @@
 
       {% if is_admin %}
       <div style="margin-top:16px;border:1px solid var(--border);border-radius:12px;padding:16px">
-        <h4 class="auth-title" style="margin:0 0 8px 0">系统管理</h4>
+        <h4 class="auth-title" style="margin:0 0 8px 0" data-i18n="settings.systemManagement">系统管理</h4>
 
         <div class="row" style="margin-top:10px; gap:10px; align-items:center">
-          <label class="note" style="min-width:110px">开放注册</label>
+          <label class="note" style="min-width:110px" data-i18n="settings.registrationOpen">开放注册</label>
           <label class="switch">
             <input id="registration_open" type="checkbox" />
             <span class="slider"></span>
           </label>
-          <span class="note" id="regHelp">允许新用户注册</span>
+          <span class="note" id="regHelp" data-i18n="settings.allowNewUsers">允许新用户注册</span>
         </div>
 
         <div class="section-divider"></div>
 
         <div style="margin-top:4px">
           <div class="row" style="margin:8px 0; align-items:center">
-            <h5 class="auth-title" style="margin:0; flex:1">验证码（<a href="https://www.cloudflare.com/application-services/products/turnstile/" target="_blank" rel="noopener noreferrer" style="color:inherit">Cloudflare Turnstile</a>）</h5>
+            <h5 class="auth-title" style="margin:0; flex:1"><span data-i18n="settings.turnstile">验证码</span>（<a href="https://www.cloudflare.com/application-services/products/turnstile/" target="_blank" rel="noopener noreferrer" style="color:inherit">Cloudflare Turnstile</a>）</h5>
             <div class="row" style="align-items:center; gap:8px">
               <label class="switch">
                 <input id="turnstile_enabled" type="checkbox" />
                 <span class="slider"></span>
               </label>
-              <label class="note">启用验证码</label>
+              <label class="note" data-i18n="settings.enableTurnstile">启用验证码</label>
             </div>
           </div>
           <div class="smtp-grid" style="margin-top:8px">
-            <input id="turnstile_site_key" class="auth-input" placeholder="Site Key（站点密钥）" />
-            <input id="turnstile_secret_key" class="auth-input" placeholder="Secret Key（服务器密钥，留空不修改）" />
+            <input id="turnstile_site_key" class="auth-input" data-i18n-placeholder="settings.siteKey" placeholder="Site Key" />
+            <input id="turnstile_secret_key" class="auth-input" data-i18n-placeholder="settings.secretKey" placeholder="Secret Key" />
           </div>
           <div class="row" style="align-items:center; gap:8px; margin-top:8px">
             <input id="turnstile_tls_skip_verify" type="checkbox" />
-            <label class="note" for="turnstile_tls_skip_verify">跳过 Turnstile 证书校验（仅在内网/无系统 CA 时临时使用）</label>
+            <label class="note" for="turnstile_tls_skip_verify" data-i18n="settings.skipTlsVerify">跳过 TLS 验证</label>
           </div>
           <div class="auth-actions" style="display:flex; gap:8px; align-items:center; justify-content:flex-start">
-            <button id="saveTsBtn" class="btn primary" title="保存验证码设置" aria-label="保存验证码设置"><i class="fa-solid fa-floppy-disk"></i></button>
+            <button id="saveTsBtn" class="btn primary" data-i18n-title="settings.saveTurnstile" data-i18n-aria-label="settings.saveTurnstile" title="保存" aria-label="保存"><i class="fa-solid fa-floppy-disk"></i></button>
           </div>
           <div class="note" id="tsMsg"></div>
         </div>
@@ -106,30 +106,30 @@
 
         <div style="margin-top:4px">
           <div class="row" style="margin:8px 0; align-items:center">
-            <h5 class="auth-title" style="margin:0; flex:1">SMTP 设置</h5>
+            <h5 class="auth-title" style="margin:0; flex:1" data-i18n="settings.smtp">SMTP 设置</h5>
             <div class="row" style="align-items:center; gap:8px">
               <label class="switch">
                 <input id="smtp_enabled" type="checkbox" />
                 <span class="slider"></span>
               </label>
-              <label class="note">启用 SMTP</label>
+              <label class="note" data-i18n="settings.enableSmtp">启用 SMTP</label>
             </div>
           </div>
           <div class="smtp-grid" style="margin-top:8px">
-            <input id="smtp_host" class="auth-input" placeholder="SMTP 服务器主机名" />
-            <input id="smtp_port" class="auth-input" placeholder="端口(如 587/465)" />
-            <input id="smtp_username" class="auth-input" placeholder="用户名" />
-            <input id="smtp_password" class="auth-input" placeholder="密码（留空不修改）" type="password" />
-            <input id="smtp_sender" class="auth-input" placeholder="发件人" />
+            <input id="smtp_host" class="auth-input" data-i18n-placeholder="settings.smtpServer" placeholder="SMTP Server" />
+            <input id="smtp_port" class="auth-input" data-i18n-placeholder="settings.smtpPort" placeholder="Port" />
+            <input id="smtp_username" class="auth-input" data-i18n-placeholder="settings.smtpUsername" placeholder="Username" />
+            <input id="smtp_password" class="auth-input" data-i18n-placeholder="settings.smtpPassword" type="password" placeholder="Password" />
+            <input id="smtp_sender" class="auth-input" data-i18n-placeholder="settings.smtpFrom" placeholder="From" />
             <div class="row" style="align-items:center; gap:10px">
-              <label class="note tls-label">TLS 加密</label>
+              <label class="note tls-label" data-i18n="settings.smtpTls">TLS</label>
               <label class="switch">
                 <input id="smtp_use_tls" type="checkbox" />
                 <span class="slider"></span>
               </label>
             </div>
             <div class="row" style="align-items:center; gap:10px">
-              <label class="note" title="仅用于测试/内网自签证书。生产环境不建议关闭验证。">忽略证书验证（不安全）</label>
+              <label class="note" data-i18n="settings.smtpSkipVerify" data-i18n-title="settings.smtpSkipVerify" title="跳过验证">跳过验证</label>
               <label class="switch">
                 <input id="smtp_tls_skip_verify" type="checkbox" />
                 <span class="slider"></span>
@@ -138,8 +138,8 @@
           </div>
 
           <div class="auth-actions" style="display:flex; gap:8px; align-items:center; justify-content:flex-start">
-            <button id="saveSmtpBtn" class="btn primary" title="保存设置" aria-label="保存设置"><i class="fa-solid fa-floppy-disk"></i></button>
-            <button id="testSmtpBtn" class="btn" title="测试发送" aria-label="测试发送"><i class="fa-solid fa-paper-plane"></i></button>
+            <button id="saveSmtpBtn" class="btn primary" data-i18n-title="settings.saveSmtp" data-i18n-aria-label="settings.saveSmtp" title="保存" aria-label="保存"><i class="fa-solid fa-floppy-disk"></i></button>
+            <button id="testSmtpBtn" class="btn" data-i18n-title="settings.testEmail" data-i18n-aria-label="settings.testEmail" title="测试" aria-label="测试"><i class="fa-solid fa-paper-plane"></i></button>
           </div>
           <div class="note" id="smtpMsg"></div>
         </div>
@@ -184,33 +184,33 @@
           <div id="usersPanel" class="users-panel">
             <div class="users-header">
               <div class="users-topbar">
-                <h5 class="auth-title users-title" id="usersTitle">用户管理</h5>
+                <h5 class="auth-title users-title" id="usersTitle" data-i18n="settings.userManagement">用户管理</h5>
                 <span id="usersCount" class="note users-count"></span>
               </div>
               <div class="users-search row" style="gap:8px">
-                <input id="searchInput" class="input" placeholder="按邮箱模糊搜索" />
-                <button id="searchBtn" class="btn primary" title="搜索" aria-label="搜索"><i class="fa-solid fa-magnifying-glass"></i></button>
-                <button id="usersFullscreenBtn" class="btn icon users-fullscreen-btn" title="全屏" aria-label="全屏"><i id="usersFsIcon" class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
+                <input id="searchInput" class="input" data-i18n-placeholder="settings.userSearchPlaceholder" placeholder="Search" />
+                <button id="searchBtn" class="btn primary" data-i18n-title="settings.search" data-i18n-aria-label="settings.search" title="Search" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button id="usersFullscreenBtn" class="btn icon users-fullscreen-btn" data-i18n-title="settings.fullscreen" data-i18n-aria-label="settings.fullscreen" title="Fullscreen" aria-label="Fullscreen"><i id="usersFsIcon" class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
               </div>
             </div>
             <div class="users-table-wrap">
               <table style="width:100%; border-collapse:collapse">
               <thead>
                 <tr>
-                  <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)"><span class="th-sort" data-sort="id">ID</span></th>
-                  <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)"><span class="th-sort" data-sort="email">邮箱</span></th>
-                  <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)"><span class="th-sort" data-sort="created_at">创建时间</span></th>
-                  <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)"><span class="th-sort" data-sort="todo_count">待办数</span></th>
-                  <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">操作</th>
+                  <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)"><span class="th-sort" data-sort="id" data-i18n="settings.userId">ID</span></th>
+                  <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)"><span class="th-sort" data-sort="email" data-i18n="settings.userEmail">邮箱</span></th>
+                  <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)"><span class="th-sort" data-sort="created_at" data-i18n="settings.userCreatedAt">创建时间</span></th>
+                  <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)"><span class="th-sort" data-sort="todo_count" data-i18n="settings.userTodoCount">待办数</span></th>
+                  <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)" data-i18n="settings.actions">操作</th>
                 </tr>
               </thead>
               <tbody id="usersTbody"></tbody>
               </table>
             </div>
             <div class="users-pager row" style="gap:8px;align-items:center">
-              <button id="prevPage" class="btn" title="上一页" aria-label="上一页"><i class="fa-solid fa-angle-left"></i></button>
-              <span class="note" id="pageInfo">第 1 页</span>
-              <button id="nextPage" class="btn" title="下一页" aria-label="下一页"><i class="fa-solid fa-angle-right"></i></button>
+              <button id="prevPage" class="btn" data-i18n-title="settings.prevPage" data-i18n-aria-label="settings.prevPage" title="Prev" aria-label="Prev"><i class="fa-solid fa-angle-left"></i></button>
+              <span class="note" id="pageInfo">Page 1</span>
+              <button id="nextPage" class="btn" data-i18n-title="settings.nextPage" data-i18n-aria-label="settings.nextPage" title="Next" aria-label="Next"><i class="fa-solid fa-angle-right"></i></button>
             </div>
             <div class="users-msg note" id="usersMsg" style="margin-top:6px"></div>
           </div>
@@ -220,13 +220,13 @@
       <!-- Admin modals -->
       <div id="adminModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
         <div class="modal">
-          <h4 class="modal-title" id="adminModalTitle">确认操作</h4>
+          <h4 class="modal-title" id="adminModalTitle" data-i18n="settings.adminConfirmTitle">确认操作</h4>
           <div id="adminModalBody" class="note" style="margin-bottom:8px"></div>
-          <input id="adminModalPwd" type="password" placeholder="输入新密码（至少8位）" style="display:none; margin-bottom:8px" />
-          <input id="adminModalInput" type="text" placeholder="输入 CONFIRM 确认" />
+          <input id="adminModalPwd" type="password" data-i18n-placeholder="settings.newPassword" placeholder="New Password" style="display:none; margin-bottom:8px" />
+          <input id="adminModalInput" type="text" data-i18n-placeholder="settings.enterConfirm" placeholder="CONFIRM" />
           <div class="modal-actions">
-            <button id="adminCancelBtn" class="btn">取消</button>
-            <button id="adminOkBtn" class="btn danger">确认</button>
+            <button id="adminCancelBtn" class="btn" data-i18n="common.cancel">取消</button>
+            <button id="adminOkBtn" class="btn danger" data-i18n="common.confirm">确认</button>
           </div>
           <div class="note" id="adminModalMsg"></div>
         </div>
@@ -234,12 +234,12 @@
       <!-- SMTP test modal -->
       <div id="smtpTestModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
         <div class="modal">
-          <h4 class="modal-title">测试发送邮件</h4>
-          <p class="note">测试将使用当前表单中的 SMTP 配置。</p>
-          <input id="smtpTestTo" type="email" placeholder="收件邮箱" />
+          <h4 class="modal-title" data-i18n="settings.testEmail">测试发送邮件</h4>
+          <p class="note" data-i18n="settings.testEmailHint">测试将使用当前表单中的 SMTP 配置。</p>
+          <input id="smtpTestTo" type="email" data-i18n-placeholder="settings.testEmailPlaceholder" placeholder="Email" />
           <div class="modal-actions">
-            <button id="smtpTestCancel" class="btn">取消</button>
-            <button id="smtpTestSend" class="btn primary">发送</button>
+            <button id="smtpTestCancel" class="btn" data-i18n="common.cancel">取消</button>
+            <button id="smtpTestSend" class="btn primary" data-i18n="settings.sendTestEmail">发送</button>
           </div>
           <div class="note" id="smtpTestMsg"></div>
         </div>
@@ -274,6 +274,13 @@
       const delMsg = document.getElementById('delMsg');
       function tr(key){
         return (window.i18n && typeof window.i18n.t === 'function') ? window.i18n.t(key) : key;
+      }
+      function trf(key, vars){
+        let s = tr(key);
+        if(vars){
+          Object.entries(vars).forEach(([k,v])=>{ s = s.replace(new RegExp('\\{'+k+'\\}','g'), v); });
+        }
+        return s;
       }
 
       document.getElementById('backBtn').onclick = ()=>{ location.href='/' };
@@ -353,7 +360,7 @@
 
       function setOpen(open){
         regSwitch.checked = !!open;
-        regHelp.textContent = open ? '允许新用户注册' : '禁止新用户注册';
+        regHelp.textContent = open ? tr('settings.allowNewUsers') : tr('settings.disallowNewUsers');
       }
       function smtpConfigValid(){
         const host = document.getElementById('smtp_host').value.trim();
@@ -383,7 +390,7 @@
         document.getElementById('smtp_port').value = c.smtp_port || '';
         document.getElementById('smtp_username').value = c.smtp_username || '';
         smtpPasswordSet = !!c.smtp_password_set;
-        document.getElementById('smtp_password').placeholder = smtpPasswordSet ? '密码已设置（留空不改）' : '密码（留空不修改）';
+        document.getElementById('smtp_password').placeholder = smtpPasswordSet ? tr('settings.smtpPasswordSet') : tr('settings.smtpPassword');
         document.getElementById('smtp_sender').value = c.smtp_sender || '';
         const skipEl = document.getElementById('smtp_tls_skip_verify');
         if(skipEl) skipEl.checked = !!c.smtp_tls_skip_verify;
@@ -396,7 +403,7 @@
         if(tsEnabled) tsEnabled.checked = !!c.turnstile_enabled;
         if(tsSite) tsSite.value = c.turnstile_site_key || '';
         tsSecretSet = !!c.turnstile_secret_set;
-        if(tsSecret) tsSecret.placeholder = (tsSecretSet ? 'Secret 已设置（留空不改）' : 'Secret Key（留空不修改）');
+        if(tsSecret) tsSecret.placeholder = (tsSecretSet ? tr('settings.turnstileSecretSet') : tr('settings.secretKey'));
         if(tsSkip) tsSkip.checked = !!c.turnstile_tls_skip_verify;
       }
       regSwitch.addEventListener('change', async ()=>{
@@ -424,7 +431,7 @@
         };
         // Front-end guard: cannot enable without valid config
         if(enabled && !smtpConfigValid()){
-          smtpMsg.textContent = '请先填写完整必填项再启用 SMTP';
+          smtpMsg.textContent = tr('settings.smtpFillRequiredBeforeEnable');
           smtpEnabledToggle.checked = false;
           return;
         }
@@ -434,21 +441,21 @@
           const r = await fetch('/api/admin/config', { method:'POST', credentials:'include', headers:{'Content-Type':'application/json','X-CSRF-Token': csrf}, body: JSON.stringify(body) });
           const j = await r.json().catch(()=>({}));
           if(!r.ok){
-            const map = { smtp_invalid: 'SMTP 配置无效，请完善后再启用' };
+            const map = { smtp_invalid: tr('settings.smtpInvalidConfig') };
             smtpMsg.textContent = (map[j.error] || (j.error || ('HTTP '+r.status)));
             smtpEnabledToggle.checked = false; // revert on failure
             return;
           }
           // success
           if(enabled){
-            smtpMsg.textContent = '已启用 SMTP';
+            smtpMsg.textContent = tr('settings.smtpEnabled');
             if(body.smtp_password && body.smtp_password.length>0){ smtpPasswordSet = true; }
           }else{
-            smtpMsg.textContent = '已关闭 SMTP';
+            smtpMsg.textContent = tr('settings.smtpDisabled');
           }
           document.getElementById('smtp_password').value = '';
         }catch(e){
-          smtpMsg.textContent = '保存失败：' + (e && e.message ? e.message : '未知错误');
+          smtpMsg.textContent = tr('settings.saveFailedPrefix') + (e && e.message ? e.message : tr('settings.unknownError'));
           smtpEnabledToggle.checked = false; // revert on error
         }
       });
@@ -468,7 +475,7 @@
         if(!body.smtp_password) delete body.smtp_password;
         // Guard: cannot enable if config invalid
         if(body.smtp_enabled && !smtpConfigValid()){
-          smtpMsg.textContent = '请先填写完整必填项再启用 SMTP';
+          smtpMsg.textContent = tr('settings.smtpFillRequiredBeforeEnable');
           return;
         }
         try{
@@ -479,13 +486,13 @@
             if(body.smtp_enabled){ document.getElementById('smtp_enabled').checked = false; }
             throw new Error(j.error||('HTTP '+r.status));
           }
-          smtpMsg.textContent = '已保存';
+          smtpMsg.textContent = tr('settings.saved');
           // If password was provided and saved, mark as set for future validation
           if(body.smtp_password && body.smtp_password.length>0){
             smtpPasswordSet = true;
           }
           updateSmtpToggleState();
-        }catch(e){ smtpMsg.textContent = '保存失败：'+e.message }
+        }catch(e){ smtpMsg.textContent = tr('settings.saveFailedPrefix')+e.message }
       };
 
       // Save Turnstile config
@@ -498,8 +505,8 @@
           const site = document.getElementById('turnstile_site_key').value.trim();
           const secret = document.getElementById('turnstile_secret_key').value;
           // Guard: when enabling, require site and either new secret or an already-set secret
-          if(enabled && (!site || (!secret && !tsSecretSet))){
-            if(tsMsg) tsMsg.textContent = '启用前请填写 Site Key 和 Secret Key';
+            if(enabled && (!site || (!secret && !tsSecretSet))){
+            if(tsMsg) tsMsg.textContent = tr('settings.turnstileFillKeys');
             return;
           }
           const payload = { turnstile_enabled: enabled, turnstile_site_key: site, turnstile_tls_skip_verify: (document.getElementById('turnstile_tls_skip_verify') ? document.getElementById('turnstile_tls_skip_verify').checked : false) };
@@ -508,14 +515,14 @@
             const r = await fetch('/api/admin/config', { method:'POST', credentials:'include', headers:{'Content-Type':'application/json','X-CSRF-Token': csrf}, body: JSON.stringify(payload) });
             const j = await r.json().catch(()=>({}));
             if(!r.ok){
-              const map = { turnstile_invalid: '请输入有效的 Site/Secret Key 后再启用' };
+              const map = { turnstile_invalid: tr('settings.turnstileInvalid') };
               // Revert toggle if enabling failed
               if(enabled){ document.getElementById('turnstile_enabled').checked = false; }
               throw new Error(map[j.error] || (j.error || ('HTTP '+r.status)));
             }
-            if(tsMsg) tsMsg.textContent = '已保存';
+            if(tsMsg) tsMsg.textContent = tr('settings.saved');
             await loadConfig();
-          }catch(e){ if(tsMsg) tsMsg.textContent = '保存失败：' + (e && e.message ? e.message : '未知错误'); }
+          }catch(e){ if(tsMsg) tsMsg.textContent = tr('settings.saveFailedPrefix') + (e && e.message ? e.message : tr('settings.unknownError')); }
         });
       }
       // Toggle Turnstile enabled with validation and automatic revert
@@ -528,7 +535,7 @@
           const secret = document.getElementById('turnstile_secret_key').value;
           // Guard: when enabling, require site and either new secret or an already-set secret
           if(enabled && (!site || (!secret && !tsSecretSet))){
-            if(tsMsg) tsMsg.textContent = '启用前请填写 Site Key 和 Secret Key';
+            if(tsMsg) tsMsg.textContent = tr('settings.turnstileFillKeys');
             tsEnabledToggle.checked = false;
             return;
           }
@@ -538,15 +545,15 @@
             const r = await fetch('/api/admin/config', { method:'POST', credentials:'include', headers:{'Content-Type':'application/json','X-CSRF-Token': csrf}, body: JSON.stringify(payload) });
             const j = await r.json().catch(()=>({}));
             if(!r.ok){
-              const map = { turnstile_invalid: '请输入有效的 Site/Secret Key 后再启用' };
+              const map = { turnstile_invalid: tr('settings.turnstileInvalid') };
               if(tsMsg) tsMsg.textContent = map[j.error] || (j.error || ('HTTP '+r.status));
               tsEnabledToggle.checked = false; // revert
               return;
             }
-            if(enabled){ if(tsMsg) tsMsg.textContent = '已启用验证码'; } else { if(tsMsg) tsMsg.textContent = '已关闭验证码'; }
+            if(enabled){ if(tsMsg) tsMsg.textContent = tr('settings.turnstileEnabled'); } else { if(tsMsg) tsMsg.textContent = tr('settings.turnstileDisabled'); }
             await loadConfig();
           }catch(e){
-            if(tsMsg) tsMsg.textContent = '保存失败：' + (e && e.message ? e.message : '未知错误');
+            if(tsMsg) tsMsg.textContent = tr('settings.saveFailedPrefix') + (e && e.message ? e.message : tr('settings.unknownError'));
             tsEnabledToggle.checked = false;
           }
         });
@@ -563,8 +570,8 @@
       const currentUserEmail = document.getElementById('email').textContent.trim();
       function rowHtml(u){
         const isSelf = (u.email === currentUserEmail);
-        const pwdTitle = isSelf ? '无法在此修改自己的密码，请在上方“修改密码”' : '重置该用户密码';
-        const delTitle = isSelf ? '不能删除自己的账号' : '删除该用户';
+        const pwdTitle = isSelf ? tr('settings.cannotResetSelf') : tr('settings.resetUserPassword');
+        const delTitle = isSelf ? tr('settings.cannotDeleteSelf') : tr('settings.deleteUser');
         return `
           <tr>
             <td style="padding:8px;border-bottom:1px solid var(--border)">${u.id}</td>
@@ -588,8 +595,8 @@
         const pages = Math.max(1, Math.ceil(total/10));
         // 若当前页超过可用总页数，则回退到最后一页并重载
         if(page > pages){ page = pages; return loadUsers(); }
-        pageInfo.textContent = `第 ${page} / ${pages} 页 · 共 ${total} 用户`;
-        if(usersCountEl){ usersCountEl.innerHTML = `<i class="fa-solid fa-users"></i> 共 ${total} 用户`; }
+        pageInfo.textContent = trf('settings.pageInfo', { page, pages, total });
+        if(usersCountEl){ usersCountEl.innerHTML = `<i class="fa-solid fa-users"></i> ${trf('settings.usersTotal', { total })}`; }
         usersMsg.textContent = '';
         // 更新翻页按钮可用状态
         if(prevBtn){
@@ -638,37 +645,37 @@
         amodal.style.display = 'flex';
         amodal.setAttribute('aria-hidden','false');
         if(act==='del'){
-          atitle.textContent = '删除用户确认';
-          abody.textContent = `将删除用户 ${email} 及其所有待办。请输入 CONFIRM 确认。`;
+          atitle.textContent = tr('settings.deleteUserTitle');
+          abody.textContent = trf('settings.deleteUserBody', { email });
           if(apwd){ apwd.style.display = 'none'; }
-          ainput.placeholder = '输入 CONFIRM 确认';
+          ainput.placeholder = tr('settings.enterConfirm');
           setTimeout(()=> ainput && ainput.focus(), 0);
           aok.onclick = async ()=>{
-            if(ainput.value.trim() !== 'CONFIRM'){ amsg.textContent='请输入 CONFIRM'; return }
+            if(ainput.value.trim() !== 'CONFIRM'){ amsg.textContent=tr('settings.enterConfirm'); return }
             try{
               const r = await fetch(`/api/admin/users/${id}`, { method:'DELETE', credentials:'include', headers: { 'X-CSRF-Token': csrf } });
               if(!r.ok){ const j = await r.json().catch(()=>({})); throw new Error(j.error||('HTTP '+r.status)); }
               amodal.style.display = 'none';
               loadUsers();
-            }catch(e){ amsg.textContent = '操作失败：'+e.message }
+            }catch(e){ amsg.textContent = tr('settings.operationFailedPrefix')+e.message }
           };
         }else if(act==='pwd'){
-          atitle.textContent = '重置用户密码';
-          abody.textContent = `将为用户 ${email} 设置新密码。请在上方输入新密码，在下方输入 CONFIRM 确认。`;
+          atitle.textContent = tr('settings.resetUserTitle');
+          abody.textContent = trf('settings.resetUserBody', { email });
           if(apwd){ apwd.style.display = 'block'; }
-          ainput.placeholder = '输入 CONFIRM 确认';
+          ainput.placeholder = tr('settings.enterConfirm');
           setTimeout(()=> apwd && apwd.focus(), 0);
           aok.onclick = async ()=>{
             const newp = apwd ? apwd.value : '';
             const key = ainput.value.trim();
-            if(key !== 'CONFIRM'){ amsg.textContent='请输入 CONFIRM 以确认'; return }
-            if(!newp || newp.length < 8){ amsg.textContent='新密码至少 8 位'; return }
+            if(key !== 'CONFIRM'){ amsg.textContent=tr('settings.enterConfirmToProceed'); return }
+            if(!newp || newp.length < 8){ amsg.textContent=tr('settings.passwordAtLeast8'); return }
             try{
               const r = await fetch(`/api/admin/users/${id}/password`, { method:'POST', credentials:'include', headers: { 'Content-Type':'application/json', 'X-CSRF-Token': csrf }, body: JSON.stringify({ new: newp }) });
               if(!r.ok){ const j = await r.json().catch(()=>({})); throw new Error(j.error||('HTTP '+r.status)); }
               amodal.style.display = 'none';
-              usersMsg.textContent = '已更新密码';
-            }catch(e){ amsg.textContent = '操作失败：'+e.message }
+              usersMsg.textContent = tr('settings.passwordUpdated');
+            }catch(e){ amsg.textContent = tr('settings.operationFailedPrefix')+e.message }
           };
         }
       });
@@ -705,7 +712,7 @@
         testSend.addEventListener('click', async ()=>{
           testMsg.textContent = '';
           const to = (testTo.value||'').trim();
-          if(!to || !to.includes('@')){ testMsg.textContent='请输入有效的收件邮箱'; return }
+          if(!to || !to.includes('@')){ testMsg.textContent=tr('settings.enterValidRecipient'); return }
           testSend.disabled = true;
           try{
             const payload = {
@@ -723,19 +730,19 @@
             const j = await r.json().catch(()=>({}));
             if(!r.ok){
               const map = {
-                smtp_invalid: 'SMTP 配置无效，请检查必填项',
-                smtp_auth_failed: '认证失败，请检查用户名或密码',
-                smtp_send_failed: '发送失败，请检查主机/端口/网络'
+                smtp_invalid: tr('settings.smtpInvalidRequired'),
+                smtp_auth_failed: tr('settings.smtpAuthFailed'),
+                smtp_send_failed: tr('settings.smtpSendFailed')
               };
-              const base = map[j.error] || ('发送失败：' + (j.error || ('HTTP '+r.status)));
+              const base = map[j.error] || (tr('settings.sendFailedPrefix') + (j.error || ('HTTP '+r.status)));
               const extra = j.detail ? `（${j.detail}）` : '';
               testMsg.textContent = base + extra;
               return;
             }
-            testMsg.textContent = '测试邮件已发送（请检查收件箱/垃圾箱）';
+            testMsg.textContent = tr('settings.testMailSent');
           }catch(e){
             // Network or unexpected errors
-            testMsg.textContent = '发送失败：' + (e && e.message ? e.message : '未知错误');
+            testMsg.textContent = tr('settings.sendFailedPrefix') + (e && e.message ? e.message : tr('settings.unknownError'));
           }finally{
             testSend.disabled = false;
           }
@@ -757,7 +764,7 @@
           setTimeout(()=>{
             const on = usersPanel.classList.toggle('fullscreen');
             document.body.classList.toggle('users-fullscreen', on);
-            usersFsBtn.title = on ? '退出全屏' : '全屏';
+            usersFsBtn.title = on ? tr('settings.exitFullscreen') : tr('settings.fullscreen');
             usersFsBtn.setAttribute('aria-label', usersFsBtn.title);
             // icon fade + rotate
             if(usersFsIcon){
